@@ -1,12 +1,19 @@
 # Deutschland energy lakehouse
 
-SMARD publishes German electricity as awkward JSON time series. This repo turns one week of **load** and **onshore wind** into Delta tables a person can query.
+SMARD publishes German electricity as awkward JSON. This repo turns about 90 days of **load** and **onshore wind** into Delta tables and a Databricks dashboard.
 
-Medallion:
-- `bronze.smard_raw` — raw hours from JSON (big timestamps, nulls kept)
-- `silver.electricity_hourly` — Berlin time, typed metrics, duplicates removed
-- `gold.daily_energy_mix` — one row per day: load, wind, wind share of load (hours with no load dropped)
+![Dashboard](docs/dashboard.png)
 
-How to run: Databricks Free Edition, Git folder on this repo, notebook `notebooks/01_bronze`. Sample JSON lives in `data/sample/`.
+## Medallion
+- `bronze.smard_raw` — raw hourly JSON (timestamps as ms, nulls kept)
+- `silver.electricity_hourly` — Europe/Berlin time, typed metrics, duplicates dropped
+- `gold.daily_load` — one row per day, load min/avg/max
+- `gold.daily_energy_mix` — daily load vs wind and wind share of load (hours without load dropped)
 
-Kurz: Aus SMARD-JSON werden drei Tabellen. Bronze ist roh, Silver ist geputzt, Gold ist der Tages-Report (Windanteil an der Last).
+## How to run
+1. `python ingest/smard_ingest.py` (laptop) → `data/raw/` (gitignored)
+2. Upload JSON to Databricks volume `bronze.landing`
+3. Run notebook `notebooks/01_bronze`
+4. Dashboard reads gold: date range and daily/weekly/yearly grain are SQL parameters
+
+Kurz: Ingest auf dem Laptop, Spark im Notebook, Report im Dashboard. Bronze roh, Silver geputzt, Gold der Tages-Report.
