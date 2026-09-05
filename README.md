@@ -4,18 +4,11 @@ SMARD publishes German electricity as awkward JSON. This repo turns about 90 day
 
 ## From raw JSON to the report
 
-<table>
-  <tr>
-    <td align="center">
-      <strong>Before — raw SMARD JSON</strong><br/>
-      <img src="docs/raw.png" alt="Raw SMARD JSON screenshot"/>
-    </td>
-    <td align="center">
-      <strong>After — gold dashboard</strong><br/>
-      <img src="docs/dashboard.png" alt="Databricks dashboard screenshot"/>
-    </td>
-  </tr>
-</table>
+**Before — raw SMARD JSON**
+![Raw SMARD JSON](docs/raw.png)
+
+**After — gold dashboard**
+![Databricks dashboard](docs/dashboard.png)
 
 Raw files keep millisecond timestamps and `null` hours. Gold is one row per day (load, wind, wind share) that the dashboard filters by date and daily/weekly grain.
 
